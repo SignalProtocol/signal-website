@@ -19,8 +19,8 @@ const Navbar = () => {
     { label: "Problem", href: "#problem" },
     { label: "Solution", href: "#solution" },
     { label: "How It Works", href: "#how-it-works" },
-    { label: "Technology", href: "#technology" },
-    { label: "Tokenomics", href: "#tokenomics" },
+    { label: "Ecosystem", href: "#ecosystem" },
+    // { label: "Tokenomics", href: "#tokenomics" },
   ];
 
   return (
@@ -33,7 +33,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a
-            href="https://www.signal402.xyz"
+            href="#"
             className="flex items-center gap-2"
           >
             <img

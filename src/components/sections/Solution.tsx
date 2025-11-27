@@ -10,13 +10,13 @@ const Solution = () => {
     },
     {
       icon: Zap,
-      title: "Instant Creator Payouts",
+      title: "Instant Payouts",
       description: "Every signal use instantly pays the creator in USDC through x402. Real-time value transfer ensures creators are compensated fairly for quality alpha.",
-      highlight: "70% to Creators",
+      highlight: "70% Back to Signal Generators",
     },
     {
       icon: Lock,
-      title: "Stake to Unlock",
+      title: "Stake to Unlock Signals",
       description: "Stake $SIGNAL tokens to unlock more daily signals and participate in protocol revenue sharing. Higher stakes grant greater access and rewards.",
       highlight: "20% Revenue Share",
     },
@@ -30,7 +30,7 @@ const Solution = () => {
       <div className="container px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-            The Solution: <span className="text-gradient-primary">x402 Terminal for Alpha</span>
+            The Solution: <span className="text-gradient-primary">x402 Terminal for Trading Alpha</span>
           </h2>
           <p className="text-lg text-muted-foreground">
             A reliable marketplace built on transparency, instant payments, and aligned incentives.

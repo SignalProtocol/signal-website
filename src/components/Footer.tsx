@@ -23,7 +23,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              <XLogo className="w-4 h-4" />Signal402
+              <XLogo className="w-4 h-4" />Follow
             </a>
             <a
               href="https://app.signal402.xyz/"

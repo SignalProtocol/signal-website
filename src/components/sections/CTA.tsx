@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText, Users } from "lucide-react";
 import { XLogo } from "@/components/icons/XLogo";
+import { Link } from "react-router-dom";
 
 const CTA = () => {
   const features = [
@@ -72,16 +73,11 @@ const CTA = () => {
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </a>
-            <Button variant="hero-outline" size="xl" asChild>
-              <a
-                href="https://x.com/signal402_xyz"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <XLogo className="w-5 h-5" />
-                Signal402
-              </a>
-            </Button>
+            <Link to="/whitelist">
+              <Button variant="outline" size="xl">
+                Join Whitelist
+              </Button>
+            </Link>
           </div>
 
           {/* Footer note */}

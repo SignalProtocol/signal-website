@@ -5,13 +5,13 @@ const Problem = () => {
     {
       icon: TrendingDown,
       stat: "12-32.5%",
-      title: "Annual Losses",
+      title: "Drawdown",
       description: "Traders consistently lose due to severe information asymmetry in the market",
     },
     {
       icon: AlertTriangle,
       stat: "95%",
-      title: "Noise Signals",
+      title: "Noisy Signals",
       description: "Most signals on Telegram and Discord are noise or exit liquidity traps",
     },
     {
@@ -30,7 +30,7 @@ const Problem = () => {
             The Problem: <span className="text-destructive">Information Asymmetry</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            The current trading landscape is plagued by issues that hurt both traders and creators.
+            The current trading landscape is plagued by issues that hurt both traders and signal generators.
           </p>
         </div>
 

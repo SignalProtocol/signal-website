@@ -7,15 +7,17 @@ import { useToast } from "@/hooks/use-toast";
 import { Mail, ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
 
 const Whitelist = () => {
-  const [email, setEmail] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
+  const [hasFollowedX, setHasFollowedX] = useState("");
+  const [hasJoinedTG, setHasJoinedTG] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const validateSolanaAddress = (address: string) => {
+    const solanaRegex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+    return solanaRegex.test(address);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,26 +27,43 @@ const Whitelist = () => {
     if (!isSupabaseConfigured()) {
       toast({
         title: "Configuration Required",
-        description:
-          "Supabase credentials are not configured. Please check.",
+        description: "Supabase credentials are not configured. Please check.",
         variant: "destructive",
       });
       return;
     }
 
-    if (!email) {
+    if (hasFollowedX !== "yes") {
       toast({
-        title: "Email Required",
-        description: "Please enter your email address.",
+        title: "Requirement Missing",
+        description: "Please confirm you have followed us on X.",
         variant: "destructive",
       });
       return;
     }
 
-    if (!validateEmail(email)) {
+    if (hasJoinedTG !== "yes") {
       toast({
-        title: "Invalid Email",
-        description: "Please enter a valid email address.",
+        title: "Requirement Missing",
+        description: "Please confirm you have joined our TG Community.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!walletAddress) {
+      toast({
+        title: "Wallet Address Required",
+        description: "Please enter your Solana wallet address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!validateSolanaAddress(walletAddress)) {
+      toast({
+        title: "Invalid Wallet Address",
+        description: "Please enter a valid Solana wallet address.",
         variant: "destructive",
       });
       return;
@@ -55,17 +74,19 @@ const Whitelist = () => {
     try {
       const { error } = await supabase.from("whitelist").insert([
         {
-          email: email.toLowerCase().trim(),
+          wallet_address: walletAddress,
+          has_followed_x: true,
+          has_joined_tg: true,
           created_at: new Date().toISOString(),
         },
       ]);
 
       if (error) {
-        // Check if it's a duplicate email error
+        // Check if it's a duplicate wallet error (assuming unique constraint on wallet_address)
         if (error.code === "23505") {
           toast({
             title: "Already Registered",
-            description: "This email is already on the whitelist!",
+            description: "This wallet is already on the whitelist!",
             variant: "default",
           });
         } else {
@@ -77,15 +98,16 @@ const Whitelist = () => {
           title: "Success! 🎉",
           description: "You've been added to the whitelist.",
         });
-        setEmail("");
+        setWalletAddress("");
+        setHasFollowedX("");
+        setHasJoinedTG("");
       }
     } catch (error: any) {
       console.error("Error adding to whitelist:", error);
       toast({
         title: "Error",
         description:
-          error.message ||
-          "Failed to add email to whitelist. Please try again.",
+          error.message || "Failed to add to whitelist. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -128,28 +150,149 @@ const Whitelist = () => {
                   Join the Whitelist
                 </h1>
                 <p className="text-muted-foreground">
-                  Be the first to access Signal402's exclusive trading signals
+                  Complete the steps below to get early access
                 </p>
               </div>
 
               {/* Form */}
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Question 1: X Follow */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-foreground block">
+                    1. Followed us on{" "}
+                    <a
+                      href="https://x.com/signal402_xyz"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      X (Twitter)
+                    </a>
+                    ? <span className="text-destructive">*</span>
+                  </label>
+                  <div className="flex items-center gap-4">
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                      <div
+                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                          hasFollowedX === "yes"
+                            ? "border-primary bg-primary/20 shadow-[0_0_10px_rgba(0,255,255,0.3)]"
+                            : "border-muted-foreground group-hover:border-primary/50"
+                        }`}
+                      >
+                        {hasFollowedX === "yes" && (
+                          <div className="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_5px_rgba(0,255,255,0.8)]" />
+                        )}
+                      </div>
+                      <input
+                        type="radio"
+                        name="followX"
+                        value="yes"
+                        checked={hasFollowedX === "yes"}
+                        onChange={(e) => setHasFollowedX(e.target.value)}
+                        className="hidden"
+                      />
+                      <span
+                        className={`text-sm transition-colors duration-300 ${
+                          hasFollowedX === "yes"
+                            ? "text-primary font-medium"
+                            : "text-muted-foreground group-hover:text-foreground"
+                        }`}
+                      >
+                        Yes
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Question 2: TG Join */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-foreground block">
+                    2. Joined our{" "}
+                    <a
+                      href="https://t.me/signal402_community"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      TG Community
+                    </a>
+                    ? <span className="text-destructive">*</span>
+                  </label>
+                  <div className="flex items-center gap-4">
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                      <div
+                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                          hasJoinedTG === "yes"
+                            ? "border-primary bg-primary/20 shadow-[0_0_10px_rgba(0,255,255,0.3)]"
+                            : "border-muted-foreground group-hover:border-primary/50"
+                        }`}
+                      >
+                        {hasJoinedTG === "yes" && (
+                          <div className="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_5px_rgba(0,255,255,0.8)]" />
+                        )}
+                      </div>
+                      <input
+                        type="radio"
+                        name="joinTG"
+                        value="yes"
+                        checked={hasJoinedTG === "yes"}
+                        onChange={(e) => setHasJoinedTG(e.target.value)}
+                        className="hidden"
+                      />
+                      <span
+                        className={`text-sm transition-colors duration-300 ${
+                          hasJoinedTG === "yes"
+                            ? "text-primary font-medium"
+                            : "text-muted-foreground group-hover:text-foreground"
+                        }`}
+                      >
+                        Yes
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Question 3: Wallet Address */}
                 <div className="space-y-2">
                   <label
-                    htmlFor="email"
+                    htmlFor="wallet"
                     className="text-sm font-medium text-foreground"
                   >
-                    Email Address
+                    3. Enter your Solana Wallet Address{" "}
+                    <span className="text-destructive">*</span>
                   </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="your.email@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={isLoading}
-                    className="bg-card/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary/20 h-12"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="wallet"
+                      type="text"
+                      placeholder="Enter Solana address..."
+                      value={walletAddress}
+                      onChange={(e) => setWalletAddress(e.target.value)}
+                      disabled={isLoading}
+                      className={`bg-card/50 text-foreground placeholder:text-muted-foreground h-12 font-mono text-sm transition-all duration-300 pr-10 ${
+                        walletAddress
+                          ? validateSolanaAddress(walletAddress)
+                            ? "border-green-500 focus-visible:ring-green-500/20 focus-visible:border-green-500 shadow-[0_0_10px_rgba(34,197,94,0.2)]"
+                            : "border-red-500 focus-visible:ring-red-500/20 focus-visible:border-red-500 shadow-[0_0_10px_rgba(239,68,68,0.2)]"
+                          : "border-border focus-visible:border-primary focus-visible:ring-primary/20"
+                      }`}
+                    />
+                    {walletAddress && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                        {validateSolanaAddress(walletAddress) ? (
+                          <CheckCircle2 className="h-5 w-5 text-green-500" />
+                        ) : (
+                          <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  {walletAddress && !validateSolanaAddress(walletAddress) && (
+                    <p className="text-xs text-red-500 animate-in slide-in-from-top-1">
+                      Please enter a valid Solana wallet address (base58, 32-44
+                      characters)
+                    </p>
+                  )}
                 </div>
 
                 <Button
@@ -176,15 +319,23 @@ const Whitelist = () => {
           ) : (
             // Success State
             <div className="text-center py-8">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-success/20 rounded-full mb-6 animate-bounce">
-                <CheckCircle2 className="h-10 w-10 text-success" />
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-primary/20 rounded-full mb-6 animate-bounce">
+                <CheckCircle2 className="h-10 w-10 text-primary" />
               </div>
               <h2 className="text-2xl font-bold text-foreground mb-3">
                 You're In! 🎉
               </h2>
               <p className="text-muted-foreground mb-8">
-                Welcome to the Signal402 whitelist. We'll keep you updated on
-                our launch and exclusive features.
+                Keep an eye out for a{" "}
+                <a
+                  href="https://explorer.solana.com/address/EEMZhENRymuN2TViQC1ijSmuEk3XnC1unkog8fERp7Eh?cluster=devnet"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline font-semibold"
+                >
+                  $SIGNAL
+                </a>{" "}
+                drip on Solana Devnet. Once you have it, Launch the App!
               </p>
               <Button
                 onClick={() => {

@@ -13,14 +13,14 @@ const Hero = () => {
       <div className="container relative z-10 px-4 py-20">
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
           {/* Badge */}
-          <div className="animate-slide-up opacity-0 mb-8">
+          {/* <div className="animate-slide-up opacity-0 mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-primary/30">
               <Zap className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium text-muted-foreground">
                 Live on Solana
               </span>
             </div>
-          </div>
+          </div> */}
 
           {/* Main heading */}
           <h1 className="animate-slide-up opacity-0 animate-delay-100 text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6">
@@ -28,12 +28,11 @@ const Hero = () => {
           </h1>
 
           {/* Tagline */}
-          <p className="animate-slide-up opacity-0 animate-delay-200 text-xl sm:text-2xl md:text-3xl font-medium text-muted-foreground mb-4">
+          {/* <p className="animate-slide-up opacity-0 animate-delay-200 text-xl sm:text-2xl md:text-3xl font-medium text-muted-foreground mb-4">
             Pay-per-signal marketplace
-          </p>
+          </p> */}
           <p className="animate-slide-up opacity-0 animate-delay-300 text-lg sm:text-xl text-foreground/80 mb-12 max-w-2xl">
-            Tokenised alpha for perp traders. Access verified trading signals
-            with x402 micropayments.
+            Pay-Per-Signal Marketplace Fighting Information Asymmetry in Perp Trading for Humans & Trading Agents
           </p>
 
           {/* CTA buttons */}
@@ -56,7 +55,7 @@ const Hero = () => {
           </div>
 
           {/* Stats */}
-          <div className="animate-slide-up opacity-0 animate-delay-500 grid grid-cols-3 gap-8 sm:gap-16">
+          {/* <div className="animate-slide-up opacity-0 animate-delay-500 grid grid-cols-3 gap-8 sm:gap-16">
             <div className="text-center">
               <div className="text-2xl sm:text-4xl font-bold text-foreground mb-1">
                 $15B+
@@ -81,7 +80,7 @@ const Hero = () => {
                 Weekly Signals
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
