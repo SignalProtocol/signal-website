@@ -16,7 +16,7 @@ const Whitelist = () => {
   const navigate = useNavigate();
 
   const validateSolanaAddress = (address: string) => {
-    if (address.length <= 43 || address.length > 44) {
+    if (address.length < 43 || address.length > 44) {
       return false;
     }
     const solanaRegex = /^[1-9A-HJ-NP-Za-km-z]+$/;
