@@ -292,7 +292,7 @@ const Whitelist = () => {
                   </div>
                   {walletAddress && !validateSolanaAddress(walletAddress) && (
                     <p className="text-xs text-red-500 animate-in slide-in-from-top-1">
-                      Please enter a valid Solana wallet address (base58, 32-44
+                      Please enter a valid Solana wallet address (base58, 43-44
                       characters)
                     </p>
                   )}
