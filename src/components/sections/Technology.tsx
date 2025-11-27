@@ -1,5 +1,4 @@
 import { Cpu, Globe, Layers, Bot } from "lucide-react";
-import pancakeSwap from "../../../public/images/bunny-mono.png";
 
 const Technology = () => {
   const integrations = [
@@ -21,7 +20,7 @@ const Technology = () => {
     },
     {
       name: "PancakeSwap",
-      logo: pancakeSwap,
+      logo: "/images/bunny-mono.png",
     },
     {
       name: "Raydium Perps",
