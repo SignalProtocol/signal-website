@@ -83,22 +83,44 @@ const Technology = () => {
           <h3 className="text-xl font-bold text-center mb-8 text-muted-foreground">
             DEX Ecosystem
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {integrations.map((integration) => (
-              <div
-                key={integration.name}
-                className="flex flex-col items-center justify-center gap-3 group"
-              >
-                <img
-                  src={integration.logo}
-                  alt={integration.name}
-                  className="w-12 h-12 object-contain brightness-0 invert opacity-70 group-hover:opacity-100 transition-opacity duration-300"
-                />
-                <h4 className="font-semibold text-muted-foreground group-hover:text-primary transition-colors text-center">
-                  {integration.name}
-                </h4>
-              </div>
-            ))}
+          <div className="flex flex-col gap-12">
+            {/* First Row - 4 items */}
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+              {integrations.slice(0, 4).map((integration) => (
+                <div
+                  key={integration.name}
+                  className="flex flex-col items-center justify-center gap-3 group w-32 md:w-40"
+                >
+                  <img
+                    src={integration.logo}
+                    alt={integration.name}
+                    className="w-12 h-12 object-contain brightness-0 invert opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <h4 className="font-semibold text-muted-foreground group-hover:text-primary transition-colors text-center">
+                    {integration.name}
+                  </h4>
+                </div>
+              ))}
+            </div>
+
+            {/* Second Row - 3 items */}
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+              {integrations.slice(4).map((integration) => (
+                <div
+                  key={integration.name}
+                  className="flex flex-col items-center justify-center gap-3 group w-32 md:w-40"
+                >
+                  <img
+                    src={integration.logo}
+                    alt={integration.name}
+                    className="w-12 h-12 object-contain brightness-0 invert opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+                  />
+                  <h4 className="font-semibold text-muted-foreground group-hover:text-primary transition-colors text-center">
+                    {integration.name}
+                  </h4>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

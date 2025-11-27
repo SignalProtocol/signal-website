@@ -35,16 +35,10 @@ const CTA = () => {
           </h2>
 
           <div className="inline-block px-6 py-3 rounded-xl glass border-primary/30 mb-8">
-            <span className="text-lg font-semibold text-primary">
-              Fair Launch Approach
-            </span>
+            <span className="text-lg font-semibold text-primary"></span>
           </div>
 
-          <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Our project will launch with a fair distribution model, emphasizing
-            community ownership and decentralized governance from day one. No
-            pre-sales or special allocations.
-          </p>
+          
 
           {/* Features */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
@@ -62,7 +56,7 @@ const CTA = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 mt-16">
             <a
               href="https://app.signal402.xyz/"
               target="_blank"
@@ -81,9 +75,9 @@ const CTA = () => {
           </div>
 
           {/* Footer note */}
-          <p className="text-sm text-muted-foreground">
+          {/* <p className="text-sm text-muted-foreground">
             DM for data room access and founder introduction
-          </p>
+          </p> */}
         </div>
       </div>
     </section>
