@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Zap } from "lucide-react";
+import Mixpanel from "@/mixpanel";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -23,6 +24,20 @@ const Navbar = () => {
     // { label: "Tokenomics", href: "#tokenomics" },
   ];
 
+  const trackJoinWhiteListClicked = () => {
+    // Mixpanel tracking code here
+    Mixpanel.track("Join Whitelist button Clicked", {
+      location: "Navbar",
+    });
+  };
+
+  const trackLaunchAppClicked = () => {
+    // Mixpanel tracking code here
+    Mixpanel.track("Launch App button Clicked", {
+      location: "Navbar",
+    });
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -32,10 +47,7 @@ const Navbar = () => {
       <div className="container px-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a
-            href="#"
-            className="flex items-center gap-2"
-          >
+          <a href="#" className="flex items-center gap-2">
             <img
               src="images/logo.png"
               alt="Signal Logo"
@@ -59,7 +71,11 @@ const Navbar = () => {
           {/* CTA */}
           <div className="hidden lg:flex items-center gap-4">
             <Link to="/whitelist">
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => trackJoinWhiteListClicked()}
+              >
                 Join Whitelist
               </Button>
             </Link>
@@ -68,7 +84,11 @@ const Navbar = () => {
               target="_blank"
               className="bg-transparent border-0"
             >
-              <Button variant="default" size="sm">
+              <Button
+                variant="default"
+                size="sm"
+                onClick={() => trackLaunchAppClicked()}
+              >
                 Launch App
               </Button>
             </a>

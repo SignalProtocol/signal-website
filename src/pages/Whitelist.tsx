@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, ArrowLeft, CheckCircle2, Loader2 } from "lucide-react";
+import Mixpanel from "@/mixpanel";
 
 const Whitelist = () => {
   const [walletAddress, setWalletAddress] = useState("");
@@ -92,10 +93,15 @@ const Whitelist = () => {
             description: "This wallet is already on the whitelist!",
             variant: "default",
           });
+          trackJoinWhiteListClicked(walletAddress, "Already Registered");
         } else {
           throw error;
         }
       } else {
+        trackJoinWhiteListClicked(
+          walletAddress,
+          "Successfully Joined WhiteList"
+        );
         setIsSuccess(true);
         toast({
           title: "Success! 🎉",
@@ -107,6 +113,7 @@ const Whitelist = () => {
       }
     } catch (error: any) {
       console.error("Error adding to whitelist:", error);
+      trackJoinWhiteListClicked(walletAddress, "Failed to Join WhiteList");
       toast({
         title: "Error",
         description:
@@ -116,6 +123,66 @@ const Whitelist = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const trackUserFollowedX = () => {
+    Mixpanel.track("Has User Followed X ?", {
+      followed_x: "YES",
+    });
+  };
+
+  const trackUserJoinedTG = () => {
+    Mixpanel.track("Has User Joined TG ?", {
+      joined_tg: "YES",
+    });
+  };
+
+  const trackWalletAddressEntered = (address: string) => {
+    if (address && validateSolanaAddress(address)) {
+      Mixpanel.track("Wallet Address Entered", {
+        wallet_address: address,
+        is_valid_wallet_address: true,
+        timestamp: new Date().toISOString(),
+      });
+    } else if (address) {
+      Mixpanel.track("Wallet Address Entered", {
+        wallet_address_partial: address.substring(0, 10) + "...",
+        is_valid_wallet_address: false,
+        timestamp: new Date().toISOString(),
+      });
+    }
+  };
+
+  const trackContactUsOnX = () => {
+    Mixpanel.track("Contact Us on X Clicked", {
+      timestamp: new Date().toISOString(),
+      location: "Whitelist Page",
+    });
+  };
+
+  const trackJoinWhiteListClicked = (walletAddress: string, status: string) => {
+    Mixpanel.track("Join WhiteList button clicked", {
+      wallet_address: walletAddress,
+      timestamp: new Date().toISOString(),
+      location: "Whitelist Page",
+      status: status,
+    });
+  };
+
+  const trackReturnToHomeClicked = () => {
+    Mixpanel.track("Return to Home button clicked after Joining WhiteList", {
+      timestamp: new Date().toISOString(),
+      location: "Whitelist Page",
+      status: "Joined WhiteList",
+    });
+  };
+
+  const trackReturnToHomeClickedWithoutJoiningWhiteList = () => {
+    Mixpanel.track("Return to Home button clicked without Joining WhiteList", {
+      timestamp: new Date().toISOString(),
+      location: "Whitelist Page",
+      status: "Did Not Join WhiteList",
+    });
   };
 
   return (
@@ -134,7 +201,12 @@ const Whitelist = () => {
         <Button
           variant="ghost"
           className="mb-6 text-primary hover:text-primary/80 hover:bg-primary/10"
-          onClick={() => navigate("/")}
+          onClick={() => {
+            navigate("/");
+            !isSuccess
+              ? trackReturnToHomeClickedWithoutJoiningWhiteList()
+              : trackReturnToHomeClicked();
+          }}
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Home
@@ -191,7 +263,10 @@ const Whitelist = () => {
                         name="followX"
                         value="yes"
                         checked={hasFollowedX === "yes"}
-                        onChange={(e) => setHasFollowedX(e.target.value)}
+                        onChange={(e) => {
+                          setHasFollowedX(e.target.value);
+                          trackUserFollowedX();
+                        }}
                         className="hidden"
                       />
                       <span
@@ -239,7 +314,10 @@ const Whitelist = () => {
                         name="joinTG"
                         value="yes"
                         checked={hasJoinedTG === "yes"}
-                        onChange={(e) => setHasJoinedTG(e.target.value)}
+                        onChange={(e) => {
+                          setHasJoinedTG(e.target.value);
+                          trackUserJoinedTG();
+                        }}
                         className="hidden"
                       />
                       <span
@@ -271,6 +349,7 @@ const Whitelist = () => {
                       placeholder="Enter Solana address..."
                       value={walletAddress}
                       onChange={(e) => setWalletAddress(e.target.value)}
+                      onBlur={(e) => trackWalletAddressEntered(e.target.value)}
                       disabled={isLoading}
                       className={`bg-card/50 text-foreground placeholder:text-muted-foreground h-12 font-mono text-sm transition-all duration-300 pr-10 ${
                         walletAddress
@@ -344,6 +423,7 @@ const Whitelist = () => {
                 onClick={() => {
                   setIsSuccess(false);
                   navigate("/");
+                  trackReturnToHomeClicked();
                 }}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground"
               >
@@ -362,6 +442,7 @@ const Whitelist = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:text-primary/80 transition-colors"
+              onClick={() => trackContactUsOnX()}
             >
               @signal402_xyz
             </a>

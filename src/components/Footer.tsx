@@ -1,7 +1,21 @@
 import { Zap, FileText, Globe } from "lucide-react";
 import { XLogo } from "@/components/icons/XLogo";
+import Mixpanel from "@/mixpanel";
 
 const Footer = () => {
+  const trackXFollowClick = () => {
+    // Mixpanel tracking code here
+    Mixpanel.track("X Follow Clicked", {
+      location: "Footer",
+    });
+  };
+
+  const trackAppVisitClick = () => {
+    // Mixpanel tracking code here
+    Mixpanel.track("Signal App button clicked", {
+      location: "Footer",
+    });
+  };
   return (
     <footer className="relative py-12 border-t border-border">
       <div className="container px-4">
@@ -22,13 +36,16 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() => trackXFollowClick()}
             >
-              <XLogo className="w-4 h-4" />Follow
+              <XLogo className="w-4 h-4" />
+              Follow
             </a>
             <a
               href="https://app.signal402.xyz/"
               target="_blank"
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() => trackAppVisitClick()}
             >
               <Globe className="w-4 h-4" />
               App

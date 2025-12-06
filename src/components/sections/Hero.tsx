@@ -1,8 +1,23 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap } from "lucide-react";
+import Mixpanel from "@/mixpanel";
 
 const Hero = () => {
+  const trackJoinWhiteListClicked = () => {
+    // Mixpanel tracking code here
+    Mixpanel.track("Join Whitelist button Clicked", {
+      location: "Hero",
+    });
+  };
+
+  const trackLaunchAppClicked = () => {
+    // Mixpanel tracking code here
+    Mixpanel.track("Launch App button Clicked", {
+      location: "Hero",
+    });
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background effects */}
@@ -32,7 +47,8 @@ const Hero = () => {
             Pay-per-signal marketplace
           </p> */}
           <p className="animate-slide-up opacity-0 animate-delay-300 text-lg sm:text-xl text-foreground/80 mb-12 max-w-2xl">
-            Pay-Per-Signal Marketplace Fighting Information Asymmetry in Perp Trading for Humans & Trading Agents
+            Pay-Per-Signal Marketplace Fighting Information Asymmetry in Perp
+            Trading for Humans & Trading Agents
           </p>
 
           {/* CTA buttons */}
@@ -42,13 +58,21 @@ const Hero = () => {
               target="_blank"
               className="bg-transparent border-0"
             >
-              <Button variant="hero" size="xl">
+              <Button
+                variant="hero"
+                size="xl"
+                onClick={() => trackLaunchAppClicked()}
+              >
                 Launch App
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </a>
             <Link to="/whitelist">
-              <Button variant="outline" size="xl">
+              <Button
+                variant="outline"
+                size="xl"
+                onClick={() => trackJoinWhiteListClicked()}
+              >
                 Join Whitelist
               </Button>
             </Link>

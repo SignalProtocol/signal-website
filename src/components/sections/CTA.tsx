@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, FileText, Users } from "lucide-react";
 import { XLogo } from "@/components/icons/XLogo";
 import { Link } from "react-router-dom";
+import Mixpanel from "@/mixpanel";
 
 const CTA = () => {
   const features = [
@@ -22,6 +23,20 @@ const CTA = () => {
     },
   ];
 
+  const trackJoinWhiteListClicked = () => {
+    // Mixpanel tracking code here
+    Mixpanel.track("Join Whitelist button Clicked", {
+      location: "CTA",
+    });
+  };
+
+  const trackLaunchAppClicked = () => {
+    // Mixpanel tracking code here
+    Mixpanel.track("Launch App button Clicked", {
+      location: "CTA",
+    });
+  };
+
   return (
     <section id="join" className="relative py-24 sm:py-32 overflow-hidden">
       <div className="absolute inset-0 grid-pattern opacity-20" />
@@ -37,8 +52,6 @@ const CTA = () => {
           <div className="inline-block px-6 py-3 rounded-xl glass border-primary/30 mb-8">
             <span className="text-lg font-semibold text-primary"></span>
           </div>
-
-          
 
           {/* Features */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
@@ -62,13 +75,21 @@ const CTA = () => {
               target="_blank"
               className="bg-transparent border-0"
             >
-              <Button variant="hero" size="xl">
+              <Button
+                variant="hero"
+                size="xl"
+                onClick={() => trackLaunchAppClicked()}
+              >
                 Launch App
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </a>
             <Link to="/whitelist">
-              <Button variant="outline" size="xl">
+              <Button
+                variant="outline"
+                size="xl"
+                onClick={() => trackJoinWhiteListClicked()}
+              >
                 Join Whitelist
               </Button>
             </Link>
